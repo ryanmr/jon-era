@@ -1,0 +1,214 @@
+@import '@fontsource-variable/fraunces/full.css';
+@import '@fontsource/caveat/500.css';
+@import '@fontsource/caveat/700.css';
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Fraunces Variable', Georgia, serif;
+  --font-hand: 'Caveat', 'Bradley Hand', cursive;
+  --font-stamp: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --color-night: #140d09;
+  --color-ember: #2a1a11;
+  --color-cream: #f6eedf;
+  --color-paper: #fbf6ec;
+  --color-ink: #2b2118;
+  --color-gold: #e8b35a;
+  --color-rust: #c4622d;
+  --color-stamp: #ff8a2a;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-night);
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Warm, slightly spotlit stage the photos sit on. */
+.stage-bg {
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 45%, #3a2416 0%, #22150d 55%, #120b07 100%);
+}
+
+.vignette {
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* Film grain: an SVG noise tile jittered every frame. */
+.grain {
+  inset: -50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .95  0 0 0 0 .85  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.11;
+  mix-blend-mode: overlay;
+  animation: grain 0.6s steps(6) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-8%, 5%); }
+  40% { transform: translate(6%, -9%); }
+  60% { transform: translate(-4%, 11%); }
+  80% { transform: translate(10%, 3%); }
+  100% { transform: translate(-6%, -4%); }
+}
+
+/* TV static for idle screens. */
+.static-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='turbulence' baseFrequency='1.4' numOctaves='1'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  animation: static 0.25s steps(5) infinite;
+}
+
+@keyframes static {
+  0% { background-position: 0 0; }
+  25% { background-position: -40px 60px; }
+  50% { background-position: 70px -30px; }
+  75% { background-position: -90px -80px; }
+  100% { background-position: 20px 110px; }
+}
+
+.scanlines {
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+}
+
+.crt-glow {
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.08), transparent 60%),
+    radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+.flicker {
+  animation: flicker 0.12s infinite alternate;
+}
+
+@keyframes flicker {
+  from { opacity: 0.92; }
+  to { opacity: 1; }
+}
+
+.rolling-bar {
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.07) 50%, transparent);
+  height: 30%;
+  animation: roll 3.5s linear infinite;
+}
+
+@keyframes roll {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(400%); }
+}
+
+/* Sunburst rays behind spinning photos. */
+.sunburst {
+  background: repeating-conic-gradient(from 0deg, rgba(232, 179, 90, 0.16) 0deg 9deg, transparent 9deg 18deg);
+  animation: spin 40s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.polaroid {
+  background: linear-gradient(160deg, #fffaf0 0%, #f3ead8 100%);
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.15),
+    0 18px 40px -8px rgba(0, 0, 0, 0.65),
+    inset 0 0 30px rgba(140, 110, 70, 0.12);
+}
+
+.tape {
+  background: rgba(246, 231, 190, 0.72);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  mask-image: linear-gradient(90deg, transparent 0 2%, #000 2% 98%, transparent 98%),
+    linear-gradient(#000, #000);
+}
+
+.sprockets {
+  background-image: radial-gradient(ellipse 34% 30% at 50% 50%, #f4ead6 60%, transparent 66%);
+  background-size: 28px 100%;
+  opacity: 0.85;
+}
+
+.film-base {
+  background: linear-gradient(to bottom, #1b1410, #0d0907);
+}
+
+.stamp {
+  font-family: var(--font-stamp);
+  color: var(--color-stamp);
+  text-shadow: 0 0 6px rgba(255, 120, 30, 0.85), 0 0 1px #ffb070;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(232, 179, 90, 0.55);
+}
+
+.paper-back {
+  background:
+    repeating-linear-gradient(-32deg, rgba(120, 95, 60, 0.07) 0 2px, transparent 2px 46px),
+    linear-gradient(160deg, #f8f1e2, #eadfc8);
+}
+
+.hide-cursor,
+.hide-cursor * {
+  cursor: none !important;
+}
+
+/* Title-card confetti; each piece sets its own --dx / --rot / duration / delay. */
+.confetti {
+  animation-name: confetti-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  opacity: 0.9;
+}
+
+@keyframes confetti-fall {
+  from { transform: translate3d(0, -8vh, 0) rotate(0deg) rotateY(0deg); }
+  to { transform: translate3d(var(--dx), 112vh, 0) rotate(var(--rot)) rotateY(720deg); }
+}
+
+/* Dust drifting through the projector beam. */
+.dust {
+  animation: dust linear infinite;
+  opacity: 0;
+}
+
+@keyframes dust {
+  0% { transform: translate(0, 0); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.6; }
+  100% { transform: translate(18px, -40px); opacity: 0; }
+}
+
+/* Finale mosaic tiles catch the light now and then. */
+.twinkle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #fff4d6;
+  opacity: 0;
+  animation: twinkle 6s ease-in-out infinite;
+  animation-delay: inherit;
+}
+
+@keyframes twinkle {
+  0%, 90%, 100% { opacity: 0; }
+  95% { opacity: 0.55; }
+}
